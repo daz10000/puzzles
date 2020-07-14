@@ -82,7 +82,7 @@ let test() =
 let get<'T when 'T:equality> (item:'T) (arr:'T[]) = Array.findIndex (fun x -> x=item ) arr
 
 let generate() =
-    [| Jul13 ; Jul14 ; Jul15 ; Jul16 ; Jul17|]  |> // no need to shuffle dates
+    [| Jul13 ; Jul14 ; Jul15 ; Jul16 ; Jul17|]  |> // no need to shuffle dates these are arbitrary
         (fun dates -> 
             shuffle [| Lynn ; Muriel ; Nadine ; Sylvia ; Vicki |] 
                 (fun instructor ->
@@ -95,15 +95,18 @@ let generate() =
                                     let fourteenth = dates |> get Jul14
                                     let sixteenth = dates |> get Jul16
                                     let seventeenth = dates |> get Jul17
-                                    let ferrel = customer |> get MrsFerrell
+
+                                    let ayres= customer |> get MrAyres
                                     let blake = customer |> get MrsBlake
                                     let chang = customer |> get MsChang
-                                    let lynn = instructor |> get Lynn
+                                    let ferrel = customer |> get MrsFerrell
+
                                     let manta = location |> get MantaBay
                                     let portia = location |> get MantaBay
                                     let queen = location |> get QueensBench
                                     let rowe = location |> get RoweIsland
-                                    let ayres= customer |> get MrAyres
+
+                                    let lynn = instructor |> get Lynn
                                     let muriel= instructor |> get Muriel
                                     let nadine = instructor |> get Nadine
                                     let sylvia = instructor |> get Sylvia
