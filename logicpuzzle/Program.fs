@@ -102,7 +102,7 @@ let generate() =
                                     let ferrel = customer |> get MrsFerrell
 
                                     let manta = location |> get MantaBay
-                                    let portia = location |> get MantaBay
+                                    let portia = location |> get PortiaReef
                                     let queen = location |> get QueensBench
                                     let rowe = location |> get RoweIsland
 
@@ -133,10 +133,11 @@ let generate() =
                                     // Neither Ms Chang nor the diver going out with Muriel is the diver headed to Rowe island
                                         chang <> rowe &&
                                         muriel<> rowe &&
+                                        muriel<> chang &&
                                     // Ms Chang will dive 1 day after the diver going out with Lynn
                                         lynn+1=chang &&
                                     // Mrs Ferrell will dive 1 day before the customer headed to Queen's bench 
-                                        ferrel=queen+1
+                                        ferrel=queen-1
                                     then
                                         // acceptable
                                         printfn "---------------"
