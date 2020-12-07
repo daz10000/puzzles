@@ -132,6 +132,20 @@ let sevenMer =
         Description = "Are there 7 consecutive H, if yes, bet all H, otherwise avoid strings of 7 H"
     }
 
+type Mer = bool
+let mer n =
+    {   Name = sprintf "%dmer" n
+        Question = (fun coins -> 
+                        let tossCoinString = coinString coins
+                        tossCoinString.Contains([|for _ in 1..n -> 1|] |> coinString) : Mer
+                   )
+        Turn = fun hasMer prevTosses i -> 
+                if hasMer then 1
+                elif i>n-1 && ([| for j in i-n+1..i-1 -> prevTosses.[j]=1 |] |> Array.forall (id) ) then 0 
+                else tossOne()
+        Description = sprintf "Are there %d consecutive H, if yes, bet all H, otherwise avoid strings of %d H" n n
+    }
+
 type MoreHeadsFirst50 = bool
 let moreHeadsFirst50 =
     {   Name = "moreHeadsFirst50"  
@@ -149,6 +163,41 @@ let moreHeadsFirst50 =
         Description = "Are there more heads in first 50? If yes, H for first 50 then tails for second 50"
     }
 
+type HTHgtHTT = bool
+let headToHeadGTHeadToTail =
+    {   Name = "HTH>HTT"  
+        Question = (fun coins -> 
+                        let hth = [|for i in 1..N-1 -> if coins.[i-1]=1&& coins.[i]=1 then 1 else 0|] |> Array.sum
+                        let htt = [|for i in 1..N-1 -> if coins.[i-1]=1&& coins.[i]=0 then 1 else 0|] |> Array.sum
+                        hth>htt: HTHgtHTT
+        )
+        Turn = (fun hthGThtt prevTosses i -> 
+                if i = 0 then tossOne()
+                else match prevTosses.[i-1],hthGThtt with
+                        | 1,true -> 1
+                        | 1,false -> 0
+                        | _ -> tossOne()
+              )
+        Description = "Are head to head transitions > head to tail?"
+    }
+
+let headToHeadGTHeadToTailV2 =
+    {   Name = "HTH>HTT_v2"  
+        Question = (fun coins -> 
+                        let hth = [|for i in 1..N-1 -> if coins.[i-1]=1&& coins.[i]=1 then 1 else 0|] |> Array.sum
+                        let htt = [|for i in 1..N-1 -> if coins.[i-1]=1&& coins.[i]=0 then 1 else 0|] |> Array.sum
+                        hth>htt: HTHgtHTT
+        )
+        Turn = (fun hthGThtt prevTosses i -> 
+                if i = 0 then tossOne()
+                else match prevTosses.[i-1],hthGThtt with
+                        | 1,true -> 1
+                        | 1,false -> 0
+                        | _ -> if hthGThtt then 1 else 0
+              )
+        Description = "Are head to head transitions > head to tail? different null strategy"
+    }
+
 
 // MAIN ===============
 [<EntryPoint>]
@@ -159,16 +208,21 @@ let main argv =
     let report result =
         printfn "%-20s   %5.5f    %5.2f  %-10d %s" result.Player.Name result.Winnings result.Time result.Trials result.Player.Description
 
-    let t = 100000 // can drop this by 10x and stil get pretty good approximations
+    let t = 1000000 // can drop this by 10x and stil get pretty good approximations
 
     // playN t cheater |> report //  100.0 (test perfect knowledge)
+    //(*
     playN t naive |> report // 50.0
     playN t first |> report // 50.5
     playN t firstSecondSame |> report // 50.5
     playN t moreHTT |> report // 53.97
     playN t moreHTTFirst99 |> report //53.97
     playN t longestSequenceHeads |> report // 52.5
-    playN t sevenMer |> report //  50.942
+    for i in 4..11 do
+        playN t (mer i)  |> report // 6mer best 51.13
     playN t moreHeadsFirst50 |> report //  50.506
+    playN t headToHeadGTHeadToTail |> report //  52.80
+    playN t headToHeadGTHeadToTailV2 |> report //  52.825
+    //*)
 
     0 
