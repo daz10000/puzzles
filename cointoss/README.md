@@ -28,3 +28,19 @@ each correct guess gives you 1$. What's your question and strategy? #probability
     =================================================================================================
     MoreHTT                53.98294    88.90  10000000   More heads than tails
     MoreHThanTFirst99      53.98149    104.76 10000000   More heads than tails first 99
+
+
+### Analytical R solution for MoreHTT
+
+Gives 53.979 (courtesy Finn VK)
+
+```
+outcome_probabilities <- 0:100 %>% sapply(function(n) dbinom(n, 100, 0.5))
+odds_more_tails_or_even <- outcome_probabilities[1:51] %>% sum ## stupid 1-indexing
+odds_more_heads <- outcome_probabilities[52:101] %>% sum
+more_tails_or_even_outcomes_weighted_odds <- 0:50 * outcome_probabilities[1:51]
+more_tails_or_even_EV <- (more_tails_or_even_outcomes_weighted_odds %>% sum) / odds_more_tails_or_even
+more_heads_outcomes_weighted_odds <- 51:100 * outcome_probabilities[52:101]
+more_heads_EV <- (more_heads_outcomes_weighted_odds %>% sum) / odds_more_heads
+(100 - more_tails_or_even_EV) * odds_more_tails_or_even + more_heads_EV * odds_more_heads
+```
