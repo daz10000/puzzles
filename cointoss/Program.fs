@@ -109,9 +109,9 @@ let longestSequenceHeads =
     {   Name = "longestSequenceHeads"  
         Question = (fun coins -> 
                         let coinsString = coinString coins
-                        let tails = coinsString.Split([|'1'|],StringSplitOptions.RemoveEmptyEntries) |> Array.map (fun substring -> substring.Length)
-                        let heads = coinsString.Split([|'0'|],StringSplitOptions.RemoveEmptyEntries) |> Array.map (fun substring -> substring.Length)
-                        heads > tails: LongestSequenceHeads
+                        let tails = coinsString.Split([|'1'|],StringSplitOptions.RemoveEmptyEntries) |> Array.maxBy (fun substring -> substring.Length)
+                        let heads = coinsString.Split([|'0'|],StringSplitOptions.RemoveEmptyEntries) |> Array.maxBy (fun substring -> substring.Length)
+                        heads.Length > tails.Length: LongestSequenceHeads
         )
         Turn = fun longestSequenceHeads prevTosses i -> 
                     if longestSequenceHeads then 1 else 0
@@ -167,7 +167,7 @@ let main argv =
     playN t firstSecondSame |> report // 50.5
     playN t moreHTT |> report // 53.97
     playN t moreHTTFirst99 |> report //53.97
-    playN t longestSequenceHeads |> report // 50.999
+    playN t longestSequenceHeads |> report // 52.5
     playN t sevenMer |> report //  50.942
     playN t moreHeadsFirst50 |> report //  50.506
 

@@ -18,7 +18,7 @@ each correct guess gives you 1$. What's your question and strategy? #probability
     FirstSecondSame        50.503    13.00  1000000    Are first and second same
     MoreHTT                53.979    11.18  1000000    More heads than tails
     MoreHThanTFirst99      53.985    11.45  1000000    More heads than tails first 99
-    longestSequenceHeads   51.004    20.90  1000000    Is longest sequence heads - if yes play heads else play tails
+    longestSequenceHeads   52.488    19.09  1000000    Is longest sequence heads - if yes play heads else play tails
     sevenMer               50.944    51.66  1000000    Are there 7 consecutive H, if yes, bet all H, otherwise avoid strings of 7 H
     moreHeadsFirst50       50.504    18.94  1000000    Are there more heads in first 50? If yes, H for first 50 then tails for second 50
     
