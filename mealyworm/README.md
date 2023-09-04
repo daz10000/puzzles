@@ -1,0 +1,1 @@
+Amelia the mealyworm lands on a random point on the surface of a table.  She hops randomly in one of 4 directions with a gaussian distributed hop size and distance.  There's a bowl of soup on the table,  how often does she land in the soup vs successfully jump off the table
