@@ -20,8 +20,8 @@
     |> List.rev
     |> List.fold (fun acc (giftIdx, giftName) ->
         acc@[ match giftIdx, day with
-                | 0, 0 -> sprintf "%s." giftName
-                | 0, _ -> sprintf "and %s." giftName
-                | _, _ -> sprintf "%s," giftName ]
+                | 0, 0 -> $"{giftName}."
+                | 0, _ -> $"and {giftName}."
+                | _, _ -> $"{giftName},"]
     ) [$"\nOn the {dayName} day of Christmas my true love gave to me:"]
 ) |> List.concat |> String.concat "\n" |> System.Console.WriteLine
